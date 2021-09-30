@@ -4,7 +4,7 @@
 const mongoose = require('mongoose');
 
 // created the Schema for the staff using .Schema() method in the mongoose class object creator that's why its mongoose.Schema.
-const staffSchema = new mongoose.Schema({
+const studentSchema = new mongoose.Schema({
     fullname: {
         type: String,
         required: ['true', 'Input your fullname'],
@@ -16,14 +16,6 @@ const staffSchema = new mongoose.Schema({
     email: {
         type: String,
         required: ['true', "Input your email"],
-    },
-    sex: {
-        type: String,
-        enum: {
-            values: ['male', 'female'],
-            message: "status can either be 'male' or 'female' !",
-        },
-        required: ['true', "Input your specialization"]
     },
     password: {
         type: String,
@@ -41,12 +33,16 @@ const staffSchema = new mongoose.Schema({
         type: String,
         required: ['true', "Input your state of origin"]
     },
-    position: {
+    class: {
         type: String,
         required: ['true', "Input your position"]
     },
-    specialization: {
+    sex: {
         type: String,
+        enum: {
+            values: ['male', 'female'],
+            message: "status can either be 'male' or 'female' !",
+        },
         required: ['true', "Input your specialization"]
     },
     profilePic: {

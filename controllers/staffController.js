@@ -122,3 +122,40 @@ exports.getStaff = async (req, res, next)=>{
         });
     }
 }
+
+// controller for updating a staff's detail including uploading of profile pic.
+exports.update = async (req, res, next) => {
+    const {fullname, dateOfBirth, phoneNumber, address, stateOfOrigin, position, specialization} = req.body
+    const profilePic = `https://find-my-blood.herokuapp.com/${req.file.filename}`;
+    
+    try {
+        
+        const hospital = await Hospital.findByIdAndUpdate({ _id: req.params.id}, {
+            fullname,
+            dateOfBirth,
+            phoneNumber,
+            address,
+            stateOfOrigin,
+            position,
+            specialization,
+            profilePic
+        }, {
+            new: true
+        }
+        )
+        
+        res.status(200).json({
+            status: 'success',
+            message: 'Successfully updated details',
+            data: hospital
+        })
+        
+    } catch(err) {
+        res.status(400).json({
+            status: 'fail',
+            error: err
+        })
+    }
+
+    next()
+}

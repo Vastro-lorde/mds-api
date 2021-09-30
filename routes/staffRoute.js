@@ -5,8 +5,8 @@ const {auth, idcheck} = require('../middlewares/auth');
 
 
 router.post('/signup', staffController.signup);
-router.post('/signup', staffController.login);
-// router.post('/signup', staffController.update);
+router.post('/login', staffController.login);
+router.post('/edit', auth, staffController.update);
 router.get('/', auth,  staffController.getStaff);
 
 // exporting the router
