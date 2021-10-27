@@ -10,8 +10,7 @@ const staffSchema = new mongoose.Schema({
         required: ['true', 'Input your fullname'],
     },
     dateOfBirth: {
-        type: String,
-        required: ['true', "Input your date of birth"],
+        type: String
     },
     email: {
         type: String,
@@ -34,8 +33,7 @@ const staffSchema = new mongoose.Schema({
         required: ['true', "Input your phone number"]
     },
     address: {
-        type: String,
-        required: ['true', "Input your address"]
+        type: String
     },
     stateOfOrigin: {
         type: String,
@@ -46,12 +44,17 @@ const staffSchema = new mongoose.Schema({
         required: ['true', "Input your position"]
     },
     specialization: {
-        type: String,
-        required: ['true', "Input your specialization"]
+        type: String
     },
     profilePic: {
         type: String,
-        required: ['true', "Upload your profile picture"]
+    },
+    profilePic_cloudId: {
+        type: String,
+    },
+    active: {
+        type: Boolean,
+        default: true
     }
 
 });

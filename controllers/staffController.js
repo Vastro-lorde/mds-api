@@ -29,8 +29,8 @@ exports.signup = async (req, res, next) => {
         fullname: req.body.fullname,
         email: req.body.email,
         password: hashedPassword,
+        sex: req.body.sex,
         phoneNumber: req.body.phoneNumber,
-        address: req.body.address,
         stateOfOrigin: req.body.stateOfOrigin,
         position: req.body.position
         }
@@ -40,7 +40,7 @@ exports.signup = async (req, res, next) => {
 
         // nodemailer function goes here.
         console.log(req.body.name, req.body.email);
-        signUpMailer( String(req.body.name), String(req.body.email));
+        // signUpMailer( String(req.body.name), String(req.body.email));
 
         res.status(201).json({
             status: 'success',
@@ -125,12 +125,14 @@ exports.getStaff = async (req, res, next)=>{
 
 // controller for updating a staff's detail including uploading of profile pic.
 exports.update = async (req, res, next) => {
-    const {fullname, dateOfBirth, phoneNumber, address, stateOfOrigin, position, specialization} = req.body
-    const profilePic = `https://find-my-blood.herokuapp.com/${req.file.filename}`;
-    
+    const {fullname, dateOfBirth, phoneNumber, address, stateOfOrigin, position, specialization} = req.body;
+   
     try {
+        const cloudFile = await cloudinary.uploader.upload(req.file.path),
         
-        const hospital = await Hospital.findByIdAndUpdate({ _id: req.params.id}, {
+        const profilePic = cloudFile.secure_url;
+        const profilePic_cloudId = cloudFile.public_id;
+        const staff = await Staff.findByIdAndUpdate({ _id: req.params.id}, {
             fullname,
             dateOfBirth,
             phoneNumber,
@@ -138,7 +140,8 @@ exports.update = async (req, res, next) => {
             stateOfOrigin,
             position,
             specialization,
-            profilePic
+            profilePic,
+            profilePic_cloudId
         }, {
             new: true
         }
@@ -147,7 +150,7 @@ exports.update = async (req, res, next) => {
         res.status(200).json({
             status: 'success',
             message: 'Successfully updated details',
-            data: hospital
+            data: staff
         });
         
     } catch(err) {
