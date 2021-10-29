@@ -123,6 +123,46 @@ exports.getStaff = async (req, res, next)=>{
     }
 }
 
+
+// This is the controller for getting list of active Staffs.
+exports.getActiveStaffs = async (req, res, next)=>{
+    const staffs = await Staff.find({ active: true });
+    if (!staffs) {
+        res.status(401).json({
+            status: 'failed',
+            message: 'No active Staff found',
+            data: null
+        });
+    } else {
+        res.status(200).json({
+            status: 'successful',
+            message: 'List of Active Staffs',
+            data: staffs
+        });
+    }
+}
+
+
+// This is the controller for getting list of inactive Staffs.
+exports.getInactiveStaffs = async (req, res, next)=>{
+    const staffs = await Staff.find({ active: false });
+    if (!staffs) {
+        res.status(401).json({
+            status: 'failed',
+            message: 'No inactive Staff found',
+            data: null
+        });
+    } else {
+        res.status(200).json({
+            status: 'successful',
+            message: 'List of inactive Staffs',
+            data: staffs
+        });
+    }
+}
+
+
+
 // controller for updating a staff's detail including uploading of profile pic.
 exports.update = async (req, res, next) => {
     const {fullname, dateOfBirth, phoneNumber, address, stateOfOrigin, position, specialization} = req.body;
