@@ -32,19 +32,34 @@ const staffSchema = new mongoose.Schema({
         type: String,
         required: ['true', "Input your phone number"]
     },
+    staffNumber: {
+        type: String
+    },
     address: {
         type: String
     },
-    stateOfOrigin: {
+    accomodation: {
         type: String,
-        required: ['true', "Input your state of origin"]
+        enum: {
+            values: ['Resident', 'Outside School'],
+            message: "can either be Resident or Outside School!",
+        }
+    },
+    stateOfOrigin: {
+        type: String
     },
     position: {
-        type: String,
-        required: ['true', "Input your position"]
+        type: String
     },
     specialization: {
         type: String
+    },
+    employment: {
+        type: String,
+        enum: {
+            values: ['Full-time', 'Part-time'],
+            message: "can either be Full-time or Part-time!",
+        }
     },
     profilePic: {
         type: String,
