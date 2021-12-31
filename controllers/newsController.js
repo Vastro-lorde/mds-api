@@ -1,4 +1,5 @@
 const News = require('../models/newsModel.js');
+const cloudinary = require('../middlewares/cloudinary');
 
 // Controller for getting list of all news document.
 exports.getNews = async(req, res, next) => {
@@ -27,7 +28,7 @@ exports.getNews = async(req, res, next) => {
 exports.createNews = async(req, res, next) => {
     console.log(req.hospital)
     try {
-        const cloudFile = await cloudinary.uploader.upload(req.file.path),
+        const cloudFile = await cloudinary.uploader.upload(req.file.path)
         const newNews= {
             title: req.body.title,
             picture : cloudFile.secure_url,

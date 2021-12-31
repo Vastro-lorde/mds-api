@@ -7,7 +7,7 @@ const upload = require('../middlewares/multer');
 
 router.post('/signup', staffController.signup);
 router.post('/login', staffController.login);
-router.post('/edit', auth, upload.single('profilePic'), staffController.update);
+router.post('/edit/:id', auth, upload.single('profilePic'), staffController.update);
 router.get('/:id', auth, staffController.getStaff);
 
 // exporting the router

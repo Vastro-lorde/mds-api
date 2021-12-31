@@ -3,6 +3,7 @@
 const Staff = require('../models/staffModel.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const cloudinary = require('../middlewares/cloudinary');
 
 
 // controller for signing up  a Staff
@@ -39,13 +40,13 @@ exports.signup = async (req, res, next) => {
         const staff = await Staff.create(theStaff);
 
         // nodemailer function goes here.
-        console.log(req.body.name, req.body.email);
+        console.log(req.body.fullname, req.body.email);
         // signUpMailer( String(req.body.name), String(req.body.email));
 
         res.status(201).json({
             status: 'success',
-            message: 'An email has been sent to your given email address',
-            data: hospital
+            message: 'Welcome to Mater Dei Online',
+            data: staff
         });
     }
         
@@ -75,7 +76,7 @@ exports.login = async (req, res, next) => {
 
         }
         if (await bcrypt.compare(req.body.password , checkEmail.password)){
-            console.log(req.body.password + " " + checkEmail.password);
+            // console.log(req.body.password + " " + checkEmail.password);
 
             // creating the token from the email and secret
             token = jwt.sign( checkEmail.email, process.env.SECRET_KEY);
@@ -87,7 +88,7 @@ exports.login = async (req, res, next) => {
             });
         }
         else {
-            console.log(req.body.password + " " + checkEmail.password);
+            console.log(req.body.password , checkEmail.password);
             res.status(400).json({
                 status: 'fail',
                 message: 'Wrong password',
@@ -165,13 +166,22 @@ exports.getInactiveStaffs = async (req, res, next)=>{
 
 // controller for updating a staff's detail including uploading of profile pic.
 exports.update = async (req, res, next) => {
-    const {fullname, dateOfBirth, phoneNumber, address, stateOfOrigin, position, specialization} = req.body;
+    
    
     try {
-        const cloudFile = await cloudinary.uploader.upload(req.file.path),
-        
+        // checking the cloudiinary upload from multer
+        const cloudFile = await cloudinary.uploader.upload(req.file.path)
+        console.log(cloudFile);
+        // Retrieving profile pic cloudinary public id if it  exists.
+        const checkPic = await Staff.findOne({ _id: req.params.id });
+        if (checkPic.profilePic_cloudId) {
+           await cloudinary.uploader.destroy(checkPic.profilePic_cloudId)
+        }
+        // Creating the new variables for the profile updates
+        const {fullname, dateOfBirth, phoneNumber, address, stateOfOrigin, position, specialization} = req.body;
         const profilePic = cloudFile.secure_url;
         const profilePic_cloudId = cloudFile.public_id;
+        // Updating the profile with the variables
         const staff = await Staff.findByIdAndUpdate({ _id: req.params.id}, {
             fullname,
             dateOfBirth,
@@ -194,6 +204,7 @@ exports.update = async (req, res, next) => {
         });
         
     } catch(err) {
+        console.log(err);
         res.status(400).json({
             status: 'fail',
             error: err

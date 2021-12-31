@@ -162,9 +162,9 @@ exports.update = async(req, res, next) => {
     const { fullname, dateOfBirth, phoneNumber, address, stateOfOrigin, position, specialization } = req.body;
 
     try {
-        const cloudFile = await cloudinary.uploader.upload(req.file.path),
+        const cloudFile = await cloudinary.uploader.upload(req.file.path)
 
-            const profilePic = cloudFile.secure_url;
+        const profilePic = cloudFile.secure_url;
         const profilePic_cloudId = cloudFile.public_id;
         const student = await Student.findByIdAndUpdate({ _id: req.params.id }, {
             fullname,

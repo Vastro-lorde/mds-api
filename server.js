@@ -1,8 +1,10 @@
 //importing necessary modules
 const express = require('express');
 const staffRoute = require('./routes/staffRoute');
+const adminRoute = require('./routes/adminRoute');
 const mongodb = require('./utils/db.js');
 const app = express();
+const PORT = process.env.PORT ||1234
 const cors = require('cors');
 require('dotenv').config();
 
@@ -18,6 +20,7 @@ app.use('/',express.static('public'));
 mongodb();
 
 app.use('/staff', staffRoute);
+app.use('/admin', adminRoute);
 // app.use('/student', studentRoute);
 
 app.get('/', (req, res) => {

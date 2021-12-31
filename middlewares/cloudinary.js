@@ -1,9 +1,9 @@
 const cloudinary = require('cloudinary').v2;
 
-cloudinary.config({
-    cloud_name: process.env.cloud_name,
-    api_key: process.env.api_key,
-    api_secret: process.env.api_secret
-});
+cloudinary.config({ 
+    cloud_name: 'spiritvd', 
+    api_key: '325536184835491', 
+    api_secret: 'E4EZN9X2-YlXUI_iA5Mo4K4JAAE' 
+  });
 
 module.exports = cloudinary;

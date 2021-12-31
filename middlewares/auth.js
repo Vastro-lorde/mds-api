@@ -1,6 +1,6 @@
 // This is a middleware for the Json Web Token authorization
 const jwt = require('jsonwebtoken');
-const Staff = require('../models/hospitalModel');
+const Staff = require('../models/staffModel');
 
 
 
