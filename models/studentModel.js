@@ -39,7 +39,7 @@ const studentSchema = new mongoose.Schema({
     },
     class: {
         type: String,
-            required: ['true', "Input your position"]
+            required: ['true', "Input your class"]
     },
     sex: {
         type: String,

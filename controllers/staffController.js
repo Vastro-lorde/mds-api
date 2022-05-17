@@ -1,5 +1,3 @@
-
-
 const Staff = require('../models/staffModel.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -171,8 +169,8 @@ exports.update = async (req, res, next) => {
     try {
         // checking the cloudiinary upload from multer
         const cloudFile = await cloudinary.uploader.upload(req.file.path)
-        console.log(cloudFile);
-        // Retrieving profile pic cloudinary public id if it  exists.
+        // console.log(cloudFile);
+        // Retrieving profile pic cloudinary public id if it exists.
         const checkPic = await Staff.findOne({ _id: req.params.id });
         if (checkPic.profilePic_cloudId) {
            await cloudinary.uploader.destroy(checkPic.profilePic_cloudId)
@@ -192,10 +190,10 @@ exports.update = async (req, res, next) => {
             specialization,
             profilePic,
             profilePic_cloudId
-        }, {
+        },
+        {
             new: true
-        }
-        );
+        });
         
         res.status(200).json({
             status: 'success',
@@ -212,4 +210,22 @@ exports.update = async (req, res, next) => {
     }
 
     next();
+}
+
+// controller for deleting a staff
+exports.deleteStaff = async(req, res, next) => {
+    const {id} = req.body;
+    try {
+        const staff = await Staff.findByIdAndUpdate({ _id: id}, {active : false }, { new: true });
+        res.status(200).json({
+            status: 'success',
+            message: 'Successfully removed'
+        });
+        
+    } catch (error) {
+        res.status(400).json({
+            status: 'fail',
+            error: err
+        });
+    }
 }

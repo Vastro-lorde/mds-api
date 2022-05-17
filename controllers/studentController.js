@@ -195,3 +195,20 @@ exports.update = async(req, res, next) => {
 
     next();
 }
+
+exports.deleteStudent = async(req, res, next) => {
+    const {active, id} = req.body;
+    try {
+        const student = await Student.findByIdAndUpdate({ _id: id}, { active : false }, { new: true });
+        res.status(200).json({
+            status: 'success',
+            message: 'Successfully removed'
+        });
+        
+    } catch (error) {
+        res.status(400).json({
+            status: 'fail',
+            error: err
+        });
+    }
+}
