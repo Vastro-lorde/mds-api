@@ -26,7 +26,7 @@ exports.getNews = async(req, res, next) => {
 
 // controller for creating a news document.
 exports.createNews = async(req, res, next) => {
-    console.log(req.hospital)
+    console.log(req.news)
     try {
         const cloudFile = await cloudinary.uploader.upload(req.file.path)
         const newNews= {
@@ -61,7 +61,7 @@ exports.createNews = async(req, res, next) => {
 exports.deleteNews = async(req, res, next) => {
     try {
 
-        const news = await News.findOneAndRemove({title: req.body.title, data: req.body.date});
+        const news = await News.findOneAndRemove({title: req.body.title, date: req.body.date});
 
         res.status(201).json({
             status: 'success',

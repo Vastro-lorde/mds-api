@@ -3,33 +3,6 @@
 // importing mongoose
 const mongoose = require('mongoose');
 
-// created the Schema for the subject scores using .Schema() method in the mongoose class object creator that's why its mongoose.Schema.
-const subjectSchema = new mongoose.Schema({
-    subject : { 
-        type : String,
-        required : true
-    },
-    firstTest : {
-        type : Number,
-        default: 0
-    },
-    secondTest : {
-        type : Number,
-        default: 0
-    },
-    exam : {
-        type : Number,
-        default: 0
-    }, 
-    total : {
-        type : Number,
-        $sum: ["firstTest","secondTest","exam"]
-    },
-    student: {
-        type: mongoose.Schema.Types.ObjectId, ref: 'Student'
-    }
-})
-
 // created the Schema for the results which takes in the subschema of subject for the subjects key[].
 const resultSchema = new mongoose.Schema({
     student: {
@@ -44,10 +17,17 @@ const resultSchema = new mongoose.Schema({
         type: String,
         required: ['true', "Class cannot be empty"]
     },
-    date: {
+    dateCreated: {
         type: String,
         default: Date.now(),
         required: ['true']
+    },
+    schoolSession : {
+        type : String,
+        required : true
+    },
+    teacher: {
+        type: mongoose.Schema.Types.ObjectId, ref: 'Staff'
     }
 
 });

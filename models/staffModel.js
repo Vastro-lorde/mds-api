@@ -70,6 +70,10 @@ const staffSchema = new mongoose.Schema({
     active: {
         type: Boolean,
         default: true
+    },
+    isAdmin: {
+        type: Boolean,
+        default: false
     }
 
 });

@@ -33,7 +33,7 @@ exports.signup = async (req, res, next) => {
         stateOfOrigin: req.body.stateOfOrigin,
         position: req.body.position
         }
-
+        if(req.url.toString().includes("admin")) staff.isAdmin = true;
         // creates the staff in database
         const staff = await Staff.create(theStaff);
 
