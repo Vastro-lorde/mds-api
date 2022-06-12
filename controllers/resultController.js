@@ -1,11 +1,19 @@
 const Result = require('../models/resultModel.js');
-const {Subject} = require('../models/resultModel.js');
+const Subject = require('../models/subjectModel.js');
 
 
 // controller for creating a news document.
 exports.createResult = async(req, res, next) => {
     try {
-        subjects = await Subject.find({schoolSession: req.body.schoolSession});
+        let result = await Result.findOne({student: req.body.student, schoolSession: req.body.schoolSession});
+        if (result){
+            res.status(400).json({
+                status: 'fail',
+                message: 'Result already exists',
+                data: null
+            })
+        }
+        const subjects = await Subject.find({schoolSession: req.body.schoolSession});
         const newResult= {
             student: req.body.studentId,
             class: req.body.class,
@@ -14,10 +22,11 @@ exports.createResult = async(req, res, next) => {
             total: subjects.reduce((total, subTotal) => total + subTotal.total, 0 ),
             teacher: req.params.id,
         }
+        result = await Result.create(newResult);
         res.status(201).json({
             status: "success",
             message: 'successfully created',
-            data: news
+            data: result
         })
 
     } catch (err) {

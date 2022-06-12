@@ -65,7 +65,7 @@ const subjectSchema = new mongoose.Schema({
 });
 
 // creates the student using the mongoose model() method which takes in the name of the model and the Schema(in our case staffSchema)
-const Student = mongoose.model('Subject', subjectSchema);
+const Subject = mongoose.model('Subject', subjectSchema);
 
 // Exporting the Student model.
 module.exports = Subject;
