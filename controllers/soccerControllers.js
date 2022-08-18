@@ -64,3 +64,34 @@ const updatePlayerInfo = async (req, res) => {
         })
     }
 }
+
+const deletePlayer = async (req, res) => {
+    const teamPlayer = req.body.player
+
+    const findPlayer = await SoccerPlayer.findOne(
+        {player: newPlayer}
+    )
+
+    if (findPlayer) {
+
+        return await SoccerPlayer.deleteOne({player: teamPlayer})
+        .then(result => {
+            return res.status(200).json({
+                message: "Player deleted successfully!",
+                data: result
+            })
+        })
+        .catch(err => {
+            return res.status(400).json({
+                message: "Error!",
+                data: err
+            })
+        })
+    } else {
+        res.json({
+            message: "An error occured!"
+        })
+    }
+}
+
+module.exports = { newPlayer, updatePlayerInfo, deletePlayer }
