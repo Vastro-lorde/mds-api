@@ -12,7 +12,7 @@ const studentSchema = new mongoose.Schema({
         required: ['true', "Input your Full name"],
     },
     dateOfBirth: {
-        type: String,
+        type: Date,
         required: ['true', "Input your Date of Birth"],
     },
     email: {
@@ -30,7 +30,8 @@ const studentSchema = new mongoose.Schema({
     },
     studentNumber: {
         type: String,
-        required: ['true', "Input your Student ID Number"]
+        required: ['true', "Input your Student ID Number"],
+        unique: true
     },
     address: {
         type: String,

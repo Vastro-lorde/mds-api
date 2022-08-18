@@ -25,11 +25,13 @@ const soccerPlayerSchema = new mongoose.Schema({
     },
     isCaptain: {
         type: Boolean,
-        required: true
+        required: true,
+        default: false
     },
     availability: {
         type: Boolean,
-        required: true
+        required: true,
+        default: true
     }
 })
 
