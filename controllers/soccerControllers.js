@@ -1,7 +1,7 @@
 const { SoccerPlayer, SoccerTeam } = require("../models/studentsSoccerTeamModel")
 
 
-const newPlayer = (req, res) => {
+const newPlayer = async (req, res) => {
     const newplayer = req.body.player
 
     const findPlayer = await SoccerPlayer.findOne(
@@ -9,17 +9,7 @@ const newPlayer = (req, res) => {
     )
 
     if (!findPlayer) {
-        const createPlayer = {
-            player: req.body.player,
-            picture: req.body.picture,
-            age: req.body.age,
-            shirtNumber: req.body.shirtNumber,
-            position: req.body.position,
-            isCaptain: req.body.isCaptain,
-            availability: req.captain.availability
-        }
-
-        return await SoccerPlayer.create(createPlayer)
+        return await SoccerPlayer.create(req.body)
         .then(result => {
             return res.status(200).json(
                 {
@@ -41,5 +31,36 @@ const newPlayer = (req, res) => {
                 message: "ERROR! Could not register new player"
             }
         )
+    }
+}
+
+
+const updatePlayerInfo = async (req, res) => {
+    const teamPlayer = req.body.player
+
+    const findPlayer = await SoccerPlayer.findOne(
+        {player: newPlayer}
+    )
+
+    if (findPlayer) {
+        const updatedFields = req.body
+
+        return await SoccerPlayer.updateOne({player: teamPlayer}, updatedFields)
+        .then(result => {
+            return res.status(200).json({
+                message: "Updated successfully!",
+                data: result
+            })
+        })
+        .catch(err => {
+            return res.status(400).json({
+                message: "Error!",
+                data: err
+            })
+        })
+    } else {
+        res.json({
+            message: "An error occured!"
+        })
     }
 }
