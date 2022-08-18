@@ -123,7 +123,7 @@ exports.getStaff = async (req, res, next)=>{
 }
 
 
-// This is the controller for getting list of active Staffs.
+// This is the controller for getting list of active Staff
 exports.getActiveStaffs = async (req, res, next)=>{
     const staffs = await Staff.find({ active: true });
     if (!staffs) {
