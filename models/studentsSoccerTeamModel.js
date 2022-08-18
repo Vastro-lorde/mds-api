@@ -6,6 +6,13 @@ const soccerPlayerSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, ref: 'Student',
         required: [true]
     },
+    picture: {
+        type: String,
+    },
+    age: {
+        type: Number,
+        required: true
+    },
     shirtNumber: {
         type: Number,
         required: [true]
@@ -28,6 +35,9 @@ const soccerTeamSchema = new mongoose.Schema({
     teamName: {
         type: String,
         required: true
+    },
+    logo: {
+        type: String,
     },
     players: {
         type: [soccerPlayerSchema],
