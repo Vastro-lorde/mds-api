@@ -7,7 +7,7 @@ const newPlayer = async (req, res) => {
     { player: newPlayer }
   )
 
-  if (!findPlayer) {
+  if (!findPlayer) { 
     return await SoccerPlayer.create(req.body)
       .then(result => {
         return res.status(200).json(

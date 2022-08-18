@@ -1,10 +1,12 @@
 const mongoose = require('mongoose')
+const { isEmail } = require("validator")
 
 
 const soccerPlayerSchema = new mongoose.Schema({
     player: {
         type: mongoose.Schema.Types.ObjectId, ref: 'Student',
-        required: [true]
+        required: [true],
+        unique: true
     },
     picture: {
         type: String,
