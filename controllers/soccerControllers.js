@@ -2,96 +2,93 @@ const { SoccerPlayer, SoccerTeam } = require("../models/studentsSoccerTeamModel"
 
 
 const newPlayer = async (req, res) => {
-    const newplayer = req.body.player
+  const newplayer = req.body.player
+  const findPlayer = await SoccerPlayer.findOne(
+    { player: newPlayer }
+  )
 
-    const findPlayer = await SoccerPlayer.findOne(
-        {player: newPlayer}
-    )
-
-    if (!findPlayer) {
-        return await SoccerPlayer.create(req.body)
-        .then(result => {
-            return res.status(200).json(
-                {
-                    message: "New player was added successfully",
-                    data: result
-                }
-            )
-        })
-        .catch(error => {
-            return res.status(400).json(
-                {
-                    message: "ERROR! Could not register new player",
-                    data: error
-               })
-            })
-    } else {
-        return res.json(
-            {
-                message: "ERROR! Could not register new player"
-            }
+  if (!findPlayer) {
+    return await SoccerPlayer.create(req.body)
+      .then(result => {
+        return res.status(200).json(
+          {
+            message: "New player was added successfully",
+            data: result
+          }
         )
-    }
+      })
+      .catch(error => {
+        return res.status(400).json(
+          {
+            message: "ERROR! Could not register new player",
+            data: error
+          })
+      })
+  } else {
+    return res.json(
+      {
+        message: "ERROR! Could not register new player"
+      }
+    )
+  }
 }
 
 
 const updatePlayerInfo = async (req, res) => {
-    const teamPlayer = req.body.player
+  const teamPlayer = req.body.player
+  const findPlayer = await SoccerPlayer.findOne(
+    { player: newPlayer }
+  )
 
-    const findPlayer = await SoccerPlayer.findOne(
-        {player: newPlayer}
-    )
+  if (findPlayer) {
+    const updatedFields = req.body
 
-    if (findPlayer) {
-        const updatedFields = req.body
-
-        return await SoccerPlayer.updateOne({player: teamPlayer}, updatedFields)
-        .then(result => {
-            return res.status(200).json({
-                message: "Updated successfully!",
-                data: result
-            })
+    return await SoccerPlayer.updateOne({ player: teamPlayer }, updatedFields)
+      .then(result => {
+        return res.status(200).json({
+          message: "Updated successfully!",
+          data: result
         })
-        .catch(err => {
-            return res.status(400).json({
-                message: "Error!",
-                data: err
-            })
+      })
+      .catch(err => {
+        return res.status(400).json({
+          message: "Error!",
+          data: err
         })
-    } else {
-        res.json({
-            message: "An error occured!"
-        })
-    }
+      })
+  } else {
+    res.json({
+      message: "An error occured!"
+    })
+  }
 }
 
+
 const deletePlayer = async (req, res) => {
-    const teamPlayer = req.body.player
+  const teamPlayer = req.body.player
+  const findPlayer = await SoccerPlayer.findOne(
+    { player: newPlayer }
+  )
 
-    const findPlayer = await SoccerPlayer.findOne(
-        {player: newPlayer}
-    )
-
-    if (findPlayer) {
-
-        return await SoccerPlayer.deleteOne({player: teamPlayer})
-        .then(result => {
-            return res.status(200).json({
-                message: "Player deleted successfully!",
-                data: result
-            })
+  if (findPlayer) {
+    return await SoccerPlayer.deleteOne({ player: teamPlayer })
+      .then(result => {
+        return res.status(200).json({
+          message: "Player deleted successfully!",
+          data: result
         })
-        .catch(err => {
-            return res.status(400).json({
-                message: "Error!",
-                data: err
-            })
+      })
+      .catch(err => {
+        return res.status(400).json({
+          message: "Error!",
+          data: err
         })
-    } else {
-        res.json({
-            message: "An error occured!"
-        })
-    }
+      })
+  } else {
+    res.json({
+      message: "An error occured!"
+    })
+  }
 }
 
 module.exports = { newPlayer, updatePlayerInfo, deletePlayer }
