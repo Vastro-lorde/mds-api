@@ -65,7 +65,7 @@ const updatePlayerInfo = async (req, res) => {
 
 
 const deletePlayer = async (req, res) => {
-  const teamPlayer = req.body.player
+  const teamPlayer = req.param.player
   const findPlayer = await SoccerPlayer.findOne(
     { player: newPlayer }
   )
