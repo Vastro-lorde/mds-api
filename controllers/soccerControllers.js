@@ -7,7 +7,7 @@ const newPlayer = async (req, res) => {
     { player: newPlayer }
   )
 
-  if (!findPlayer) { 
+  if (!findPlayer) {
     return await SoccerPlayer.create(req.body)
       .then(result => {
         return res.status(200).json(
@@ -35,9 +35,9 @@ const newPlayer = async (req, res) => {
 
 
 const updatePlayerInfo = async (req, res) => {
-  const teamPlayer = req.body.player
+  const teamPlayer = req.param.player
   const findPlayer = await SoccerPlayer.findOne(
-    { player: newPlayer }
+    { player: teamPlayer }
   )
 
   if (findPlayer) {
@@ -91,4 +91,23 @@ const deletePlayer = async (req, res) => {
   }
 }
 
-module.exports = { newPlayer, updatePlayerInfo, deletePlayer }
+
+const updateTeamInfo = async (req, res) => {
+  const updatedFields = req.body
+
+  return await SoccerPlayer.updateOne({ teamName: req.body.teamName }, updatedFields)
+    .then(result => {
+      return res.status(200).json({
+        message: "Updated successfully!",
+        data: result
+      })
+    })
+    .catch(err => {
+      return res.status(400).json({
+        message: "Error!",
+        data: err
+      })
+    })
+}
+
+module.exports = { newPlayer, updatePlayerInfo, deletePlayer, updateTeamInfo }

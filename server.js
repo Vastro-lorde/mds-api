@@ -23,6 +23,7 @@ mongodb();
 app.use('/staff', staffRoute);
 app.use('/admin', adminRoute);
 app.use("/soccer_team", soccerTeamRoute)
+
 // app.use('/student', studentRoute);
 
 app.get('/', (req, res) => {
