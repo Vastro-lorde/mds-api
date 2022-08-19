@@ -93,7 +93,7 @@ const deletePlayer = async (req, res) => {
 
 
 const getPlayers = async (req, res) => {
-  return await SoccerTeam.find({})
+  return await SoccerPlayer.find({})
     .then(result => {
       return res.status(200).json({
         message: "Successful",
