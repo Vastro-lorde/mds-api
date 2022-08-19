@@ -95,7 +95,7 @@ const deletePlayer = async (req, res) => {
 const updateTeamInfo = async (req, res) => {
   const updatedFields = req.body
 
-  return await SoccerPlayer.updateOne({ teamName: req.body.teamName }, updatedFields)
+  return await SoccerTeam.updateOne({ teamName: req.body.teamName }, updatedFields)
     .then(result => {
       return res.status(200).json({
         message: "Updated successfully!",
