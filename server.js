@@ -2,6 +2,7 @@
 const express = require('express');
 const staffRoute = require('./routes/staffRoute');
 const adminRoute = require('./routes/adminRoute');
+const soccerTeamRoute = require("./routes/socccerTeamRoutes")
 const mongodb = require('./utils/db.js');
 const app = express();
 const PORT = process.env.PORT ||1234
@@ -21,6 +22,8 @@ mongodb();
 
 app.use('/staff', staffRoute);
 app.use('/admin', adminRoute);
+app.use("/soccer_team", soccerTeamRoute)
+
 // app.use('/student', studentRoute);
 
 app.get('/', (req, res) => {
