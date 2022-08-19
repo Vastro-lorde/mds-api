@@ -92,6 +92,23 @@ const deletePlayer = async (req, res) => {
 }
 
 
+const getPlayers = async (req, res) => {
+  return await SoccerTeam.find({})
+    .then(result => {
+      return res.status(200).json({
+        message: "Successful",
+        data: result
+      })
+    })
+    .catch(err => {
+      return res.status(400).json({
+        message: "Error!",
+        data: err
+      })
+    })
+}
+
+
 const updateTeamInfo = async (req, res) => {
   const updatedFields = req.body
 
@@ -110,4 +127,10 @@ const updateTeamInfo = async (req, res) => {
     })
 }
 
-module.exports = { newPlayer, updatePlayerInfo, deletePlayer, updateTeamInfo }
+module.exports = {
+  newPlayer,
+  updatePlayerInfo,
+  deletePlayer,
+  updateTeamInfo,
+  getPlayers
+}
