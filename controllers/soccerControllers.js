@@ -109,6 +109,23 @@ const getPlayers = async (req, res) => {
 }
 
 
+const getSinglePlayer = async (req, res) => {
+  return await SoccerPlayer.findOne({ player: req.param.player })
+    .then(result => {
+      return res.status(200).json({
+        message: "Successful",
+        data: result
+      })
+    })
+    .catch(err => {
+      return res.status(400).json({
+        message: "Error!",
+        data: err
+      })
+    })
+}
+
+
 const updateTeamInfo = async (req, res) => {
   const updatedFields = req.body
 
@@ -132,5 +149,6 @@ module.exports = {
   updatePlayerInfo,
   deletePlayer,
   updateTeamInfo,
-  getPlayers
+  getPlayers,
+  getSinglePlayer
 }
