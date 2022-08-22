@@ -56,4 +56,22 @@ const idcheck = async (req, res, next) =>{
         })
     }
 }
-module.exports = { staffAuth, studentAuth, idcheck };
+
+const admincheck = async (req, res, next) =>{
+    let token = req.headers.authorization;
+    try {
+        const email = jwt.verify(token, process.env.SECRET_KEY);
+        const admin = await Staff.findOne({email: email})
+        if(admin.isAdmin === true)
+        req.staff = admin;
+        next()
+        return
+    } catch (error) {
+        console.error(error);
+        res.json({
+            Status: 'Failed!',
+            message:"Please Login!"
+        })
+    }
+}
+module.exports = { staffAuth, studentAuth, idcheck, admincheck };
