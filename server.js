@@ -15,7 +15,6 @@ app.use(cors());
 app.use(express.json());
 app.use('/', express.static('public'));
 
-
 //Starting the database connection
 mongodb();
 
