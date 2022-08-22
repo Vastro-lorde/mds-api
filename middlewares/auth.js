@@ -12,6 +12,7 @@ const staffAuth = async (req, res, next) => {
         const staff = await Staff.findOne({email: email})
         req.staff = staff;
         next()
+        return
     } catch (error) {
         console.error(error);
         res.json({
@@ -28,6 +29,7 @@ const studentAuth = async (req, res, next) => {
         const student = await Student.findOne({email: email})
         req.student = student;
         next()
+        return
     } catch (error) {
         console.error(error);
         res.json({
