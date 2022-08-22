@@ -1,14 +1,31 @@
 // This is a middleware for the Json Web Token authorization
 const jwt = require('jsonwebtoken');
 const Staff = require('../models/staffModel');
+const Student = require('../models/studentModel');
 
 
 
-const auth = async (req, res, next) => {
+const staffAuth = async (req, res, next) => {
     let token = req.headers.authorization;
     try {
         const email = jwt.verify(token, process.env.SECRET_KEY);
         const staff = await Staff.findOne({email: email})
+        req.staff = staff;
+        next()
+    } catch (error) {
+        console.error(error);
+        res.json({
+            Status: 'Failed!',
+            message:"Please Login!"
+        })
+    }
+}
+
+const studentAuth = async (req, res, next) => {
+    let token = req.headers.authorization;
+    try {
+        const email = jwt.verify(token, process.env.SECRET_KEY);
+        const staff = await Student.findOne({email: email})
         req.staff = staff;
         next()
     } catch (error) {
@@ -37,4 +54,4 @@ const idcheck = async (req, res, next) =>{
         })
     }
 }
-module.exports = { auth, idcheck };
+module.exports = { staffAuth, studentAuth, idcheck };
