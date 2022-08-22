@@ -68,9 +68,9 @@ const admincheck = async (req, res, next) =>{
         return
     } catch (error) {
         console.error(error);
-        res.json({
+        res.status(401).json({
             Status: 'Failed!',
-            message:"Please Login!"
+            message:"Not authorized"
         })
     }
 }

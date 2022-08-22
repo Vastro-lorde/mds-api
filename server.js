@@ -4,6 +4,7 @@ const staffRoute = require('./routes/staffRoute');
 const adminRoute = require('./routes/adminRoute');
 const soccerTeamRoute = require("./routes/socccerTeamRoutes")
 const studentRoute = require("./routes/studentRoute")
+const newsRoute = require("./routes/newsRoute")
 const mongodb = require('./utils/db.js');
 const app = express();
 const PORT = process.env.PORT || 1234
@@ -23,6 +24,7 @@ app.use('/api/staff', staffRoute);
 app.use('/api/admin', adminRoute);
 app.use("/api/soccerteam", soccerTeamRoute)
 app.use('/api/student', studentRoute); 
+app.use("/api/news", newsRoute)
 
 app.get('/', (req, res) => {
     res.send("<h1>Mater Dei Api is running</h1>");
