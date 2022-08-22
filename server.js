@@ -19,10 +19,10 @@ app.use('/', express.static('public'));
 //Starting the database connection
 mongodb();
 
-app.use('/staff', staffRoute);
-app.use('/admin', adminRoute);
-app.use("/soccer_team", soccerTeamRoute)
-app.use('/student', studentRoute); 
+app.use('/api/staff', staffRoute);
+app.use('/api/admin', adminRoute);
+app.use("/api/soccerteam", soccerTeamRoute)
+app.use('/api/student', studentRoute); 
 
 app.get('/', (req, res) => {
     res.send("<h1>Mater Dei Api is running</h1>");
