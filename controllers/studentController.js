@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 
 // controller for signing up  a Student
-exports.signup = async(req, res, next) => {
+exports.signup = async (req, res, next) => {
 
     try {
         // check exists
@@ -57,7 +57,7 @@ exports.signup = async(req, res, next) => {
 }
 
 // controller for login in and this generates to jwt token.
-exports.login = async(req, res, next) => {
+exports.login = async (req, res, next) => {
 
     try {
         let checkEmail = await Student.findOne({ email: req.body.email });
@@ -74,7 +74,7 @@ exports.login = async(req, res, next) => {
             console.log(req.body.password + " " + checkEmail.password);
 
             // creating the token from the email and secret
-            token = jwt.sign(checkEmail.email, process.env.SECRET_KEY);
+            token = jwt.sign(checkEmail.email, process.env.SECRET_KEY, { expiresIn: "43200s" }); // 43200s = 5 days
             res.status(201).json({
                 status: 'success',
                 message: 'Your token has been created successfully',
@@ -100,7 +100,7 @@ exports.login = async(req, res, next) => {
 }
 
 // This is the controller for getting a particular Student's detail.
-exports.getStudent = async(req, res, next) => {
+exports.getStudent = async (req, res, next) => {
     const student = await Student.findById({ _id: req.params.id });
     if (!student) {
         res.status(401).json({
@@ -119,7 +119,7 @@ exports.getStudent = async(req, res, next) => {
 
 
 // This is the controller for getting list of active Students.
-exports.getActiveStudents = async(req, res, next) => {
+exports.getActiveStudents = async (req, res, next) => {
     const students = await Student.find({ active: true });
     if (!students) {
         res.status(401).json({
@@ -138,7 +138,7 @@ exports.getActiveStudents = async(req, res, next) => {
 
 
 // This is the controller for getting list of inactive Students.
-exports.getInactiveStudents = async(req, res, next) => {
+exports.getInactiveStudents = async (req, res, next) => {
     const students = await Student.find({ active: false });
     if (!students) {
         res.status(401).json({
@@ -158,7 +158,7 @@ exports.getInactiveStudents = async(req, res, next) => {
 
 
 // controller for updating a Student's detail including uploading of profile pic.
-exports.update = async(req, res, next) => {
+exports.update = async (req, res, next) => {
     const { fullname, dateOfBirth, phoneNumber, address, stateOfOrigin, position, specialization } = req.body;
 
     try {
@@ -196,15 +196,15 @@ exports.update = async(req, res, next) => {
     next();
 }
 
-exports.deleteStudent = async(req, res, next) => {
-    const {active, id} = req.body;
+exports.deleteStudent = async (req, res, next) => {
+    const { active, id } = req.body;
     try {
-        const student = await Student.findByIdAndUpdate({ _id: id}, { active : false }, { new: true });
+        const student = await Student.findByIdAndUpdate({ _id: id }, { active: false }, { new: true });
         res.status(200).json({
             status: 'success',
             message: 'Successfully removed'
         });
-        
+
     } catch (error) {
         res.status(400).json({
             status: 'fail',

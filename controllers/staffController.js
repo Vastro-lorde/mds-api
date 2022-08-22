@@ -77,7 +77,7 @@ exports.login = async (req, res, next) => {
             // console.log(req.body.password + " " + checkEmail.password);
 
             // creating the token from the email and secret
-            token = jwt.sign( checkEmail.email, process.env.SECRET_KEY);
+            token = jwt.sign( checkEmail.email, process.env.SECRET_KEY, { expiresIn: "43200s" }); // 432000s = 5 days
             res.status(201).json({
                 status: 'success',
                 message: 'Your token has been created successfully',
