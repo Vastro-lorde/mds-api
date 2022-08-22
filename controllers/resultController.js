@@ -2,24 +2,24 @@ const Result = require('../models/resultModel.js');
 const Subject = require('../models/subjectModel.js');
 
 
-// controller for creating a news document.
-exports.createResult = async(req, res, next) => {
+// controller for creating a result document.
+exports.createResult = async (req, res, next) => {
     try {
-        let result = await Result.findOne({student: req.body.student, schoolSession: req.body.schoolSession});
-        if (result){
+        let result = await Result.findOne({ student: req.body.student, schoolSession: req.body.schoolSession });
+        if (result) {
             res.status(400).json({
                 status: 'fail',
                 message: 'Result already exists',
                 data: null
             })
         }
-        const subjects = await Subject.find({schoolSession: req.body.schoolSession});
-        const newResult= {
+        const subjects = await Subject.find({ schoolSession: req.body.schoolSession });
+        const newResult = {
             student: req.body.studentId,
             class: req.body.class,
             subjects: subjects,
             session: req.body.schoolSession,
-            total: subjects.reduce((total, subTotal) => total + subTotal.total, 0 ),
+            total: subjects.reduce((total, subTotal) => total + subTotal.total, 0),
             teacher: req.params.id,
         }
         result = await Result.create(newResult);
@@ -37,4 +37,27 @@ exports.createResult = async(req, res, next) => {
     }
 
     next()
+}
+
+exports.getresult = async (req, res) => {
+    try {
+        let result = await Result.findOne({ student: req.body.student, schoolSession: req.body.schoolSession });
+        if (!result) {
+            res.status(400).json({
+                message: "Does not exist.",
+                data: null
+            })
+        } else {
+            res.status(200).json({
+                message: "Success.",
+                data: result
+            })
+        }
+    } catch (err) {
+        res.status(400).json({
+            status: 'fail',
+            error: err
+        })
+    }
+
 }

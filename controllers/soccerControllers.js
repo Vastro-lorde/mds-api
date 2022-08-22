@@ -35,7 +35,7 @@ const newPlayer = async (req, res) => {
 
 
 const updatePlayerInfo = async (req, res) => {
-  const teamPlayer = req.param.player
+  const teamPlayer = req.params.player
   const findPlayer = await SoccerPlayer.findOne(
     { player: teamPlayer }
   )
@@ -65,7 +65,7 @@ const updatePlayerInfo = async (req, res) => {
 
 
 const deletePlayer = async (req, res) => {
-  const teamPlayer = req.param.player
+  const teamPlayer = req.params.player
   const findPlayer = await SoccerPlayer.findOne(
     { player: newPlayer }
   )
@@ -110,7 +110,7 @@ const getPlayers = async (req, res) => {
 
 
 const getSinglePlayer = async (req, res) => {
-  return await SoccerPlayer.findOne({ player: req.param.player })
+  return await SoccerPlayer.findOne({ player: req.params.player })
     .then(result => {
       return res.status(200).json({
         message: "Successful",
