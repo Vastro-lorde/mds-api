@@ -25,8 +25,8 @@ const studentAuth = async (req, res, next) => {
     let token = req.headers.authorization;
     try {
         const email = jwt.verify(token, process.env.SECRET_KEY);
-        const staff = await Student.findOne({email: email})
-        req.staff = staff;
+        const student = await Student.findOne({email: email})
+        req.student = student;
         next()
     } catch (error) {
         console.error(error);
