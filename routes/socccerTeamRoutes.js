@@ -5,16 +5,18 @@ const { newPlayer,
     updateTeamInfo,
     getPlayers,
     getSinglePlayer } = require("../controllers/soccerControllers")
+const { staffAuth, idcheck } = require('../middlewares/auth')
+
 
 
 // Player routes
-router.post("/api/add_player", newPlayer)
-router.put("/api/update_player/:player", updatePlayerInfo)
-router.delete("/api/delete_player/:player", deletePlayer)
-router.get("/api/getAll_players", getPlayers)
-router.get("/api/getSingle_player/:player", getSinglePlayer)
+router.post("/addplayer", staffAuth, idcheck, newPlayer)
+router.put("/updateplayer/:player", staffAuth, idcheck, updatePlayerInfo)
+router.delete("/deleteplayer/:player", staffAuth, idcheck, deletePlayer)
+router.get("/getallplayers", getPlayers)
+router.get("/getSingleplayer/:player", getSinglePlayer)
 
 // Team routes
-router.put("/api/updateTeam_info", updateTeamInfo)
+router.put("/updateTeam_info", staffAuth, idcheck, updateTeamInfo)
 
 module.exports = router

@@ -3,28 +3,28 @@ const express = require('express');
 const staffRoute = require('./routes/staffRoute');
 const adminRoute = require('./routes/adminRoute');
 const soccerTeamRoute = require("./routes/socccerTeamRoutes")
+const studentRoute = require("./routes/studentRoute")
+const newsRoute = require("./routes/newsRoute")
 const mongodb = require('./utils/db.js');
 const app = express();
-const PORT = process.env.PORT ||1234
+const PORT = process.env.PORT || 1234
 const cors = require('cors');
+
 require('dotenv').config();
-
-
 
 //Calling the neccesary middlewares
 app.use(cors());
 app.use(express.json());
-app.use('/',express.static('public'));
-
+app.use('/', express.static('public'));
 
 //Starting the database connection
 mongodb();
 
-app.use('/staff', staffRoute);
-app.use('/admin', adminRoute);
-app.use("/soccer_team", soccerTeamRoute)
-
-// app.use('/student', studentRoute);
+app.use('/api/staff', staffRoute);
+app.use('/api/admin', adminRoute);
+app.use("/api/soccerteam", soccerTeamRoute)
+app.use('/api/student', studentRoute); 
+app.use("/api/news", newsRoute)
 
 app.get('/', (req, res) => {
     res.send("<h1>Mater Dei Api is running</h1>");

@@ -2,6 +2,8 @@
 
 // importing mongoose
 const mongoose = require('mongoose');
+const { isEmail } = require("validator")
+
 
 // created the Schema for the staff using .Schema() method in the mongoose class object creator that's why its mongoose.Schema.
 const staffSchema = new mongoose.Schema({
@@ -15,6 +17,7 @@ const staffSchema = new mongoose.Schema({
     email: {
         type: String,
         required: ['true', "Input your email"],
+        validate: [isEmail, "Please enter a valid email"]
     },
     sex: {
         type: String,

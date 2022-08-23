@@ -8,7 +8,10 @@ const resultSchema = new mongoose.Schema({
     student: {
         type: mongoose.Schema.Types.ObjectId, ref: 'Student'
     },
-    subjects: [subjectSchema],
+    subjects: [{
+        type: mongoose.Schema.Types.ObjectId, ref: 'Subject',
+        required: true
+    }],
     total: {
         type : Number,
         default: 0
