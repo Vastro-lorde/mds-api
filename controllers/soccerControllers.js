@@ -126,10 +126,10 @@ const getSinglePlayer = async (req, res) => {
 }
 
 
-const updateTeamInfo = async (req, res) => {
+const updateTeamInfo = async (req, res, next) => {
   const updatedFields = req.body
-
-  return await SoccerTeam.updateOne({ teamName: req.body.teamName }, updatedFields)
+  
+  const up = await SoccerTeam.updateOne({ teamName: req.body.teamName }, updatedFields)
     .then(result => {
       return res.status(200).json({
         message: "Updated successfully!",
@@ -142,6 +142,8 @@ const updateTeamInfo = async (req, res) => {
         data: err
       })
     })
+  
+  return up
 }
 
 module.exports = {

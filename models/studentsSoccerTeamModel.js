@@ -43,13 +43,13 @@ const soccerTeamSchema = new mongoose.Schema({
     logo: {
         type: String,
     },
-    players: {
-        type: [soccerPlayerSchema],
+    players: [{
+        type: mongoose.Schema.Types.ObjectId, ref: 'Soccerplayer',
         required: true
-    }
+    }]
 })
 
-const SoccerPlayer = mongoose.Model("SoccerPlayer", soccerPlayerSchema)
-const SoccerTeam = mongoose.Model("SoccerTeam", soccerTeamSchema)
+const SoccerPlayer = mongoose.model("SoccerPlayer", soccerPlayerSchema)
+const SoccerTeam = mongoose.model("SoccerTeam", soccerTeamSchema)
 
 module.exports = { SoccerPlayer, SoccerTeam }
