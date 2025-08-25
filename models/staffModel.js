@@ -2,35 +2,58 @@
 
 // importing mongoose
 const mongoose = require('mongoose');
+const { createBaseSchema } = require('./baseModel');
 const { isEmail } = require("validator")
+const { SexEnum, TitleEnum } = require('../utils/enums/common');
+const { StaffAccomodationEnum, EmploymentTypeEnum } = require('../utils/enums/staff');
 
 
 // created the Schema for the staff using .Schema() method in the mongoose class object creator that's why its mongoose.Schema.
-const staffSchema = new mongoose.Schema({
+const staffSchema = createBaseSchema({
+    firstName: {
+        type: String,
+        required: ['true', 'First name is required'],
+        trim: true
+    },
+    middleName: {
+        type: String,
+        trim: true
+    },
+    lastName: {
+        type: String,
+        required: ['true', 'Last name is required'],
+        trim: true
+    },
+    title: {
+        type: String,
+        enum: TitleEnum
+    },
     fullname: {
         type: String,
-        required: ['true', 'Input your fullname'],
+        get: function () {
+            return [this.firstName, this.middleName, this.lastName].filter(Boolean).join(' ');
+        }
     },
     dateOfBirth: {
-        type: String
+        type: Date
     },
     email: {
         type: String,
         required: ['true', "Input your email"],
-        validate: [isEmail, "Please enter a valid email"]
+        validate: [isEmail, "Please enter a valid email"],
+        unique: true,
+        lowercase: true,
+        trim: true
     },
     sex: {
         type: String,
         enum: {
-            values: ['male', 'female'],
+            values: SexEnum,
             message: "status can either be 'male' or 'female' !",
         },
         required: ['true', "Input your specialization"]
     },
-    password: {
-        type: String,
-        required: ['true', "Input your password"]
-    },
+    // No password here; handled by decoupled auth model
     phoneNumber: {
         type: String,
         required: ['true', "Input your phone number"]
@@ -44,7 +67,7 @@ const staffSchema = new mongoose.Schema({
     accomodation: {
         type: String,
         enum: {
-            values: ['Resident', 'Outside School'],
+            values: StaffAccomodationEnum,
             message: "can either be Resident or Outside School!",
         }
     },
@@ -60,7 +83,7 @@ const staffSchema = new mongoose.Schema({
     employment: {
         type: String,
         enum: {
-            values: ['Full-time', 'Part-time'],
+            values: EmploymentTypeEnum,
             message: "can either be Full-time or Part-time!",
         }
     },
@@ -79,7 +102,7 @@ const staffSchema = new mongoose.Schema({
         default: false
     }
 
-});
+}, { toJSON: { getters: true, virtuals: true }, toObject: { getters: true, virtuals: true } });
 
 // creates the Staff user using the mongoose model() method which takes in the name of the model and the Schema(in our case staffSchema)
 const Staff = mongoose.model('Staff', staffSchema)

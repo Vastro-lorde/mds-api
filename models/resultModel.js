@@ -9,7 +9,7 @@ const resultSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, ref: 'Student'
     },
     subjects: [{
-        type: mongoose.Schema.Types.ObjectId, ref: 'Subject',
+        type: mongoose.Schema.Types.ObjectId, ref: 'CourseScore',
         required: true
     }],
     total: {
@@ -21,8 +21,8 @@ const resultSchema = new mongoose.Schema({
         required: ['true', "Class cannot be empty"]
     },
     dateCreated: {
-        type: String,
-        default: Date.now(),
+        type: Date,
+        default: Date.now,
         required: ['true']
     },
     schoolSession : {
@@ -33,7 +33,7 @@ const resultSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, ref: 'Staff'
     }
 
-});
+}, { timestamps: true });
 
 resultSchema.pre(/^find/, function (next) {
     this.populate({

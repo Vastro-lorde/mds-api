@@ -1,63 +1,31 @@
-const Result = require('../models/resultModel.js');
-const Subject = require('../models/subjectModel.js');
+const resultService = require('../services/resultService');
+const { ok, created, badRequest, serverError } = require('../utils/helpers/http');
 
 
 // controller for creating a result document.
 exports.createResult = async (req, res, next) => {
     try {
-        let result = await Result.findOne({ student: req.body.student, schoolSession: req.body.schoolSession });
-        if (result) {
-            res.status(400).json({
-                status: 'fail',
-                message: 'Result already exists',
-                data: null
-            })
-        }
-        const subjects = await Subject.find({ schoolSession: req.body.schoolSession });
-        const newResult = {
-            student: req.body.studentId,
-            class: req.body.class,
-            subjects: subjects,
-            session: req.body.schoolSession,
-            total: subjects.reduce((total, subTotal) => total + subTotal.total, 0),
-            teacher: req.params.id,
-        }
-        result = await Result.create(newResult);
-        res.status(201).json({
-            status: "success",
-            message: 'successfully created',
-            data: result
-        })
-
+        const result = await resultService.createResult(
+            req.body.studentId,
+            req.body.schoolSession,
+            req.body.class,
+            req.params.id
+        );
+        return created(res, result, 'successfully created');
     } catch (err) {
-        res.status(400).json({
-            status: 'fail',
-            error: err
-        })
+        if (err && err.code === 'RESULT_EXISTS') return badRequest(res, 'Result already exists');
+        return serverError(res, err);
+    } finally {
+        next();
     }
-
-    next()
 }
 
 exports.getresult = async (req, res) => {
     try {
-        let result = await Result.findOne({ student: req.body.student, schoolSession: req.body.schoolSession });
-        if (!result) {
-            res.status(400).json({
-                message: "Does not exist.",
-                data: null
-            })
-        } else {
-            res.status(200).json({
-                message: "Success.",
-                data: result
-            })
-        }
+        const result = await resultService.getStudentResult(req.body.student, req.body.schoolSession);
+        if (!result) return badRequest(res, 'Does not exist.');
+        return ok(res, result, 'Success.');
     } catch (err) {
-        res.status(400).json({
-            status: 'fail',
-            error: err
-        })
+        return serverError(res, err);
     }
-
 }

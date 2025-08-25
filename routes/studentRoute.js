@@ -6,18 +6,15 @@ const { signup,
     getStudent,
     deleteStudent } = require("../controllers/studentController")
 const { getresult } = require("../controllers/resultController")
-const { studentAuth, staffAuth, idcheck, admincheck } = require('../middlewares/auth');
 const router = require("express").Router()
 
-// Student routes
-router.post("/login", login)
-router.post("/signup", signup)
+// Student routes (legacy auth endpoints removed; use /api/auth)
 router.get("students/active", getActiveStudents)
 router.get("/students/inactive", getInactiveStudents)
 router.get("/student/:student", getStudent)
 
 // Result routes
-router.get("/getresults", studentAuth, getresult)
-router.delete("/deleteStudent", staffAuth, idcheck, deleteStudent)
+router.get("/getresults", getresult)
+router.delete("/deleteStudent", deleteStudent)
 
 module.exports = router
